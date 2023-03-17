@@ -4,6 +4,7 @@ import com.example.goncharov1.data.MainRepositoryImpl
 import com.example.goncharov1.data.mappers.ArticMapper
 import com.example.goncharov1.data.mappers.ArticMapperImpl
 import com.example.goncharov1.domain.MainRepository
+import com.example.goncharov1.domain.getArtic.GetArticUseCase
 import com.example.goncharov1.domain.getArtic.GetArticUseCaseImpl
 import dagger.Module
 import dagger.Provides
@@ -22,7 +23,7 @@ class GetArticModule {
     }
 
     @Provides
-    fun getArticUseCase(mainRepository: MainRepository): GetArticUseCaseImpl {
+    fun getArticUseCase(mainRepository: MainRepository): GetArticUseCase {
         return GetArticUseCaseImpl(mainRepository)
     }
 }

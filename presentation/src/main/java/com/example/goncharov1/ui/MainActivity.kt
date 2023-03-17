@@ -31,8 +31,6 @@ class MainActivity : AppCompatActivity() {
             println(it)
         }
 
-        GlobalScope.launch {
-            mainViewModel.getArtic()
-        }
+        mainViewModel.getArtic()
     }
 }
