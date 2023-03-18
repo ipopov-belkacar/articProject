@@ -1,8 +1,8 @@
 package com.example.goncharov1.ui.recycler
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.goncharov1.databinding.ItemRecyclerViewBinding
 import com.example.goncharov1.domain.entity.ArticEntity
@@ -30,10 +30,11 @@ class ArticListAdapter :
 
     override fun getItemCount(): Int = listArtic.size
 
-    @SuppressLint("NotifyDataSetChanged")
-    fun updateListArtic(list: List<ArticEntity>) {
-        this.listArtic = list
-        notifyDataSetChanged()
+    fun updateListArtic(newListArtic: List<ArticEntity>) {
+        val diffUtil = ArticDiffUtil(oldList = listArtic, newList = newListArtic)
+        val diffResult = DiffUtil.calculateDiff(diffUtil)
+        diffResult.dispatchUpdatesTo(this)
+        this.listArtic = newListArtic
     }
 
     class ArticViewHolder(var binding: ItemRecyclerViewBinding) :
