@@ -5,9 +5,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.goncharov1.domain.entity.ArticEntity
 import com.example.goncharov1.domain.getArtic.GetArticUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class MainViewModel @Inject constructor(private val articUseCase: GetArticUseCase) :
     ViewModel() {
 
