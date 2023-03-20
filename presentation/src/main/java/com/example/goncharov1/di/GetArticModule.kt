@@ -8,7 +8,10 @@ import com.example.goncharov1.domain.getArtic.GetArticUseCase
 import com.example.goncharov1.domain.getArtic.GetArticUseCaseImpl
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 
+@InstallIn(SingletonComponent::class)
 @Module
 class GetArticModule {
 
