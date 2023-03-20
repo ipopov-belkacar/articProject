@@ -7,10 +7,10 @@ import com.example.goncharov1.domain.entity.ArticEntity
 
 class MainRepositoryImpl(private val articMapper: ArticMapper) : MainRepository {
 
-    override suspend fun getArtic(): List<ArticEntity> {
+    override suspend fun getArtic(page: Int): List<ArticEntity> {
 
         val retrofit = RetrofitClient.create()
-        val callGetArtic = retrofit.getArtic()
+        val callGetArtic = retrofit.getArtic(page)
 
         return articMapper.toDomain(callGetArtic)
     }

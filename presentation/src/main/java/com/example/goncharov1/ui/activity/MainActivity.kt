@@ -3,11 +3,13 @@ package com.example.goncharov1.ui.activity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.example.goncharov1.app.MainApp
 import com.example.goncharov1.databinding.ActivityMainBinding
 import com.example.goncharov1.di.AppComponent
 import com.example.goncharov1.ui.recycler.ArticListAdapter
 import com.example.goncharov1.viewmodels.MainViewModel
+import kotlinx.coroutines.flow.collectLatest
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,10 +34,10 @@ class MainActivity : AppCompatActivity() {
         articListAdapter = ArticListAdapter()
         binding.list.adapter = articListAdapter
 
-        mainViewModel.getArticLiveData.observe(this) {
-            articListAdapter.updateListArtic(it)
+        lifecycleScope.launchWhenCreated {
+            mainViewModel.getArtic.collectLatest {
+                articListAdapter.submitData(it)
+            }
         }
-
-        mainViewModel.getArtic()
     }
 }

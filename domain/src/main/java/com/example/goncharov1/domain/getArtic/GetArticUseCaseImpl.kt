@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class GetArticUseCaseImpl @Inject constructor(private val mainRepository: MainRepository) :
     GetArticUseCase {
-    override suspend fun getArtic(): List<ArticEntity> {
-        return mainRepository.getArtic()
+    override suspend fun getArtic(page: Int): List<ArticEntity> {
+        return mainRepository.getArtic(page)
     }
 }

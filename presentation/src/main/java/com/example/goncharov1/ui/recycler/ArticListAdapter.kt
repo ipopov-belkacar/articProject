@@ -2,15 +2,14 @@ package com.example.goncharov1.ui.recycler
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.goncharov1.databinding.ItemRecyclerViewBinding
 import com.example.goncharov1.domain.entity.ArticEntity
 
 class ArticListAdapter :
-    RecyclerView.Adapter<ArticListAdapter.ArticViewHolder>() {
-
-    private var listArtic: List<ArticEntity> = mutableListOf()
+    PagingDataAdapter<ArticEntity, ArticListAdapter.ArticViewHolder>(articDiffUtil) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticViewHolder {
         val binding: ItemRecyclerViewBinding =
@@ -20,7 +19,7 @@ class ArticListAdapter :
 
     override fun onBindViewHolder(holder: ArticViewHolder, position: Int) {
         with(holder.binding) {
-            listArtic[position].let {
+            getItem(position)!!.let {
                 textId.text = it.id.toString()
                 textTitle.text = it.title
                 textArtistDisplay.text = it.artistDisplay
@@ -28,13 +27,16 @@ class ArticListAdapter :
         }
     }
 
-    override fun getItemCount(): Int = listArtic.size
+    companion object {
+        private val articDiffUtil = object : DiffUtil.ItemCallback<ArticEntity>() {
+            override fun areItemsTheSame(oldItem: ArticEntity, newItem: ArticEntity): Boolean {
+                return oldItem.id == newItem.id
+            }
 
-    fun updateListArtic(newListArtic: List<ArticEntity>) {
-        val diffUtil = ArticDiffUtil(oldList = listArtic, newList = newListArtic)
-        val diffResult = DiffUtil.calculateDiff(diffUtil)
-        diffResult.dispatchUpdatesTo(this)
-        this.listArtic = newListArtic
+            override fun areContentsTheSame(oldItem: ArticEntity, newItem: ArticEntity): Boolean {
+                return oldItem.artistDisplay == newItem.artistDisplay && oldItem.title == newItem.title
+            }
+        }
     }
 
     class ArticViewHolder(var binding: ItemRecyclerViewBinding) :
