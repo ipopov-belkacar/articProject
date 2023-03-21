@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.goncharov1.databinding.ItemRecyclerViewBinding
 import com.example.goncharov1.domain.entity.ArticEntity
 
@@ -19,10 +20,18 @@ class ArticListAdapter :
 
     override fun onBindViewHolder(holder: ArticViewHolder, position: Int) {
         with(holder.binding) {
+
             getItem(position)!!.let {
                 textId.text = it.id.toString()
                 textTitle.text = it.title
                 textArtistDisplay.text = it.artistDisplay
+            }
+
+            getItem(position)!!.imageId?.let {
+                Glide
+                    .with(holder.itemView.context)
+                    .load("https://www.artic.edu/iiif/2/${it}/full/843,/0/default.jpg")
+                    .into(mainImage)
             }
         }
     }

@@ -7,5 +7,6 @@ data class ArticModelData(
     var title: String = "Empty",
     val department_title: String = "Empty",
     val main_reference_number: String = "Empty",
-    val artist_display: String = "Empty"
+    val artist_display: String = "Empty",
+    val image_id: String? = "Empty"
 )

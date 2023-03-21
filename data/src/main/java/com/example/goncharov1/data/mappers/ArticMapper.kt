@@ -9,7 +9,8 @@ class ArticMapperImpl : ArticMapper {
             ArticEntity(
                 id = it.id,
                 title = it.title,
-                artistDisplay = it.artist_display
+                artistDisplay = it.artist_display,
+                imageId = it.image_id,
             )
         }
     }
