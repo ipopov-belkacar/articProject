@@ -6,6 +6,7 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.goncharov1.R
 import com.example.goncharov1.databinding.ItemRecyclerViewBinding
 import com.example.goncharov1.domain.entity.ArticEntity
 
@@ -31,6 +32,9 @@ class ArticListAdapter :
                 Glide
                     .with(holder.itemView.context)
                     .load("https://www.artic.edu/iiif/2/${it}/full/843,/0/default.jpg")
+                    .override(600, 600)
+                    .centerCrop()
+                    .placeholder(R.drawable.image_placeholder)
                     .into(mainImage)
             }
         }
