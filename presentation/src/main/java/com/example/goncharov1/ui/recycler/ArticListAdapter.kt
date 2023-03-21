@@ -18,13 +18,7 @@ class ArticListAdapter :
     }
 
     override fun onBindViewHolder(holder: ArticViewHolder, position: Int) {
-        with(holder.binding) {
-            getItem(position)!!.let {
-                textId.text = it.id.toString()
-                textTitle.text = it.title
-                textArtistDisplay.text = it.artistDisplay
-            }
-        }
+        holder.bind(getItem(position))
     }
 
     companion object {
@@ -41,5 +35,15 @@ class ArticListAdapter :
 
     class ArticViewHolder(var binding: ItemRecyclerViewBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(itemArtic: ArticEntity?) {
+            with(binding) {
+                itemArtic!!.let {
+                    textId.text = it.id.toString()
+                    textTitle.text = it.title
+                    textArtistDisplay.text = it.artistDisplay
+                }
+            }
+        }
     }
 }
