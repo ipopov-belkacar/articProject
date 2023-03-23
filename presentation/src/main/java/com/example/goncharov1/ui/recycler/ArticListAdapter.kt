@@ -38,7 +38,7 @@ class ArticListAdapter :
 
         fun bind(itemArtic: ArticEntity?) {
             with(binding) {
-                itemArtic!!.let {
+                itemArtic?.let {
                     textId.text = it.id.toString()
                     textTitle.text = it.title
                     textArtistDisplay.text = it.artistDisplay
