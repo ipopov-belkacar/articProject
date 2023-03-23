@@ -10,7 +10,7 @@ import com.example.goncharov1.R
 import com.example.goncharov1.databinding.ItemRecyclerViewBinding
 import com.example.goncharov1.domain.entity.ArticEntity
 
-class ArticListAdapter :
+class ArticListAdapter(val recyclerViewClickListener: RecyclerViewClickListener) :
     PagingDataAdapter<ArticEntity, ArticListAdapter.ArticViewHolder>(articDiffUtil) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticViewHolder {
@@ -21,6 +21,7 @@ class ArticListAdapter :
 
     override fun onBindViewHolder(holder: ArticViewHolder, position: Int) {
         holder.bind(getItem(position))
+        holder.bindClick(getItem(position))
     }
 
     companion object {
@@ -35,7 +36,7 @@ class ArticListAdapter :
         }
     }
 
-    class ArticViewHolder(var binding: ItemRecyclerViewBinding) :
+    inner class ArticViewHolder(var binding: ItemRecyclerViewBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(itemArtic: ArticEntity?) {
@@ -55,6 +56,12 @@ class ArticListAdapter :
                     .centerCrop()
                     .placeholder(R.drawable.image_placeholder)
                     .into(binding.mainImage)
+            }
+        }
+
+        fun bindClick(itemArtic: ArticEntity?) {
+            binding.root.setOnClickListener {
+                recyclerViewClickListener.clickItemRecycler(itemArtic)
             }
         }
     }

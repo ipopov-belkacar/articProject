@@ -8,7 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.goncharov1.databinding.FragmentMainBinding
+import com.example.goncharov1.domain.entity.ArticEntity
 import com.example.goncharov1.ui.recycler.ArticListAdapter
+import com.example.goncharov1.ui.recycler.RecyclerViewClickListener
 import com.example.goncharov1.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.scopes.FragmentScoped
@@ -17,7 +19,7 @@ import javax.inject.Inject
 
 @FragmentScoped
 @AndroidEntryPoint
-class MainFragment : Fragment() {
+class MainFragment : Fragment(), RecyclerViewClickListener {
 
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
@@ -49,13 +51,17 @@ class MainFragment : Fragment() {
     }
 
     private fun initAdapterAndViewModel() {
-        articListAdapter = ArticListAdapter()
+        articListAdapter = ArticListAdapter(this)
         binding.list.adapter = articListAdapter
 
         mainViewModel = ViewModelProvider(
             this,
             viewModelFactory
         )[MainViewModel::class.java]
+    }
+
+    override fun clickItemRecycler(itemArtic: ArticEntity?) {
+        println("item$itemArtic")
     }
 
     override fun onDestroy() {
