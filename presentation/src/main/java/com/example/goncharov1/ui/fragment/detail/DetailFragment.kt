@@ -41,8 +41,8 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
-            textArtistDisplay.text = paramTitle
-            textTitle.text = paramArtisDisplay
+            textArtistDisplay.text = getString(R.string.artist_display_template, paramArtisDisplay)
+            textTitle.text = getString(R.string.title_display_template, paramTitle)
         }
         uploadImage()
     }

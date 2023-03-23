@@ -39,12 +39,14 @@ class ArticListAdapter(val recyclerViewClickListener: RecyclerViewClickListener)
     inner class ArticViewHolder(var binding: ItemRecyclerViewBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+        private val contextView = itemView.context
+
         fun bind(itemArtic: ArticEntity?) {
             with(binding) {
                 itemArtic?.let {
-                    textId.text = it.id.toString()
-                    textTitle.text = it.title
-                    textArtistDisplay.text = it.artistDisplay
+                    textId.text = contextView.getString(R.string.id_display_template, it.id.toString())
+                    textTitle.text = contextView.getString(R.string.title_display_template, it.title)
+                    textArtistDisplay.text = contextView.getString(R.string.artist_display_template, it.artistDisplay)
                 }
             }
 
