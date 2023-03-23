@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.example.goncharov1.R
 import com.example.goncharov1.databinding.FragmentMainBinding
 import com.example.goncharov1.domain.entity.ArticEntity
+import com.example.goncharov1.ui.fragment.detail.DetailFragment
 import com.example.goncharov1.ui.recycler.ArticListAdapter
 import com.example.goncharov1.ui.recycler.RecyclerViewClickListener
 import com.example.goncharov1.viewmodels.MainViewModel
@@ -61,7 +63,20 @@ class MainFragment : Fragment(), RecyclerViewClickListener {
     }
 
     override fun clickItemRecycler(itemArtic: ArticEntity?) {
-        println("item$itemArtic")
+        val transaction = requireActivity().supportFragmentManager.beginTransaction()
+        val detailFragment = itemArtic?.let {
+            DetailFragment.newInstance(
+                itemArtic.title,
+                itemArtic.artistDisplay,
+                itemArtic.imageId,
+            )
+        }
+
+        detailFragment?.let {
+            transaction.replace(R.id.fragmentContainerView, detailFragment)
+            transaction.addToBackStack("mainFragment")
+            transaction.commit()
+        }
     }
 
     override fun onDestroy() {
