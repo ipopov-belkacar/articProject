@@ -1,23 +1,27 @@
-package com.example.goncharov1.ui
+package com.example.goncharov1.ui.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.example.goncharov1.R
+import androidx.lifecycle.lifecycleScope
 import com.example.goncharov1.app.MainApp
+import com.example.goncharov1.databinding.ActivityMainBinding
 import com.example.goncharov1.di.AppComponent
+import com.example.goncharov1.ui.recycler.ArticListAdapter
 import com.example.goncharov1.viewmodels.MainViewModel
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.collectLatest
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var daggerAppComponent: AppComponent
     private lateinit var mainViewModel: MainViewModel
+    private lateinit var articListAdapter: ArticListAdapter
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         daggerAppComponent = (applicationContext as MainApp).appComponent
         daggerAppComponent.injectMainActivity(this)
@@ -27,10 +31,13 @@ class MainActivity : AppCompatActivity() {
             daggerAppComponent.injectViewModelFactory()
         )[MainViewModel::class.java]
 
-        mainViewModel.getArticLiveData.observe(this) {
-            println(it)
-        }
+        articListAdapter = ArticListAdapter()
+        binding.listRecyclerView.adapter = articListAdapter
 
-        mainViewModel.getArtic()
+        lifecycleScope.launchWhenCreated {
+            mainViewModel.getArtic.collectLatest {
+                articListAdapter.submitData(it)
+            }
+        }
     }
 }
