@@ -20,24 +20,7 @@ class ArticListAdapter :
     }
 
     override fun onBindViewHolder(holder: ArticViewHolder, position: Int) {
-        with(holder.binding) {
-
-            getItem(position)!!.let {
-                textId.text = it.id.toString()
-                textTitle.text = it.title
-                textArtistDisplay.text = it.artistDisplay
-            }
-
-            getItem(position)!!.imageId?.let {
-                Glide
-                    .with(holder.itemView.context)
-                    .load("https://www.artic.edu/iiif/2/${it}/full/843,/0/default.jpg")
-                    .override(600, 600)
-                    .centerCrop()
-                    .placeholder(R.drawable.image_placeholder)
-                    .into(mainImage)
-            }
-        }
+        holder.bind(getItem(position))
     }
 
     companion object {
@@ -54,5 +37,25 @@ class ArticListAdapter :
 
     class ArticViewHolder(var binding: ItemRecyclerViewBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(itemArtic: ArticEntity?) {
+            with(binding) {
+                itemArtic?.let {
+                    textId.text = it.id.toString()
+                    textTitle.text = it.title
+                    textArtistDisplay.text = it.artistDisplay
+                }
+            }
+
+            itemArtic?.imageId?.let {
+                Glide
+                    .with(itemView.context)
+                    .load("https://www.artic.edu/iiif/2/${it}/full/843,/0/default.jpg")
+                    .override(600, 600)
+                    .centerCrop()
+                    .placeholder(R.drawable.image_placeholder)
+                    .into(binding.mainImage)
+            }
+        }
     }
 }
