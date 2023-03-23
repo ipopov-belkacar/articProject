@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         )[MainViewModel::class.java]
 
         articListAdapter = ArticListAdapter()
-        binding.list.adapter = articListAdapter
+        binding.listRecyclerView.adapter = articListAdapter
 
         lifecycleScope.launchWhenCreated {
             mainViewModel.getArtic.collectLatest {
