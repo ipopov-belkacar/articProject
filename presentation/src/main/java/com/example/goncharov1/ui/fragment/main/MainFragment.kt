@@ -14,6 +14,7 @@ import com.example.goncharov1.ui.fragment.detail.DetailFragment
 import com.example.goncharov1.ui.recycler.ArticListAdapter
 import com.example.goncharov1.ui.recycler.RecyclerViewClickListener
 import com.example.goncharov1.viewmodels.MainViewModel
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.scopes.FragmentScoped
 import kotlinx.coroutines.flow.collectLatest
@@ -66,9 +67,7 @@ class MainFragment : Fragment(), RecyclerViewClickListener {
         val transaction = requireActivity().supportFragmentManager.beginTransaction()
         val detailFragment = itemArtic?.let {
             DetailFragment.newInstance(
-                itemArtic.title,
-                itemArtic.artistDisplay,
-                itemArtic.imageId,
+                Gson().toJson(itemArtic)
             )
         }
 

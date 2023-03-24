@@ -8,16 +8,14 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.goncharov1.R
 import com.example.goncharov1.databinding.FragmentDetailBinding
+import com.example.goncharov1.domain.entity.ArticEntity
+import com.google.gson.Gson
 
-private const val ARG_PARAM_TITLE = "paramTitle"
-private const val ARG_PARAM_ARTIST = "paramArtist"
-private const val ARG_PARAM_IMAGE_ID = "paramImageId"
+private const val ARG_PARAM_ARTIC_ITEM = "paramArticItem"
 
 class DetailFragment : Fragment() {
 
-    private var paramTitle: String? = null
-    private var paramArtisDisplay: String? = null
-    private var paramImageId: String? = null
+    private var articItem: ArticEntity? = null
 
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding!!
@@ -25,9 +23,7 @@ class DetailFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            paramTitle = it.getString(ARG_PARAM_TITLE)
-            paramArtisDisplay = it.getString(ARG_PARAM_ARTIST)
-            paramImageId = it.getString(ARG_PARAM_IMAGE_ID)
+            articItem = Gson().fromJson(it.getString(ARG_PARAM_ARTIC_ITEM), ArticEntity::class.java)
         }
     }
 
@@ -41,14 +37,14 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
-            textArtistDisplay.text = getString(R.string.artist_display_template, paramArtisDisplay)
-            textTitle.text = getString(R.string.title_display_template, paramTitle)
+            textArtistDisplay.text = getString(R.string.artist_display_template, articItem?.artistDisplay)
+            textTitle.text = getString(R.string.title_display_template, articItem?.title)
         }
         uploadImage()
     }
 
     private fun uploadImage() {
-        paramImageId.let {
+        articItem?.imageId.let {
             Glide.with(this)
                 .load("https://www.artic.edu/iiif/2/${it}/full/843,/0/default.jpg")
                 .override(600, 600)
@@ -66,12 +62,10 @@ class DetailFragment : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance(
-            paramArticTitle: String, paramArtistDisplay: String, paramIdImage: String?
+            itemArtic: String
         ) = DetailFragment().apply {
             arguments = Bundle().apply {
-                putString(ARG_PARAM_TITLE, paramArticTitle)
-                putString(ARG_PARAM_ARTIST, paramArtistDisplay)
-                putString(ARG_PARAM_IMAGE_ID, paramIdImage)
+                putString(ARG_PARAM_ARTIC_ITEM, itemArtic)
             }
         }
     }
