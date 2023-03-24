@@ -48,6 +48,16 @@ class ArticListAdapter(val recyclerViewClickListener: RecyclerViewClickListener)
                     textTitle.text = contextView.getString(R.string.title_display_template, it.title)
                     textArtistDisplay.text = contextView.getString(R.string.artist_display_template, it.artistDisplay)
                 }
+
+                itemArtic?.imageId?.let {
+                    Glide
+                        .with(itemView.context)
+                        .load("https://www.artic.edu/iiif/2/${it}/full/843,/0/default.jpg")
+                        .override(600, 600)
+                        .centerCrop()
+                        .placeholder(R.drawable.image_placeholder)
+                        .into(mainImage)
+                }
             }
 
             itemArtic?.imageId?.let {
