@@ -21,7 +21,7 @@ class MainRepositoryImpl @Inject constructor(
         return cashArticList.ifEmpty {
             val retrofit = RetrofitClient.create()
             val callGetArtic = retrofit.getArtic(page)
-            val articEntityList = articMapper.toDomain(callGetArtic)
+            val articEntityList = articMapper.toDomain(callGetArtic.body()!!)
             articCache.setArticList(articEntityList)
             articEntityList
         }
