@@ -23,7 +23,10 @@ interface ArticDao {
     suspend fun insertAllRemoteKey(listRemoteKet: List<ArticRemoteKey>)
 
     @Query("SELECT * FROM ArticRemoteKey WHERE id = :id")
-    suspend fun getAllRemoteKey(id: Int): ArticRemoteKey?
+    suspend fun getAllRemoteKeysById(id: Int): ArticRemoteKey?
+
+    @Query("SELECT * FROM ArticRemoteKey")
+    suspend fun getAllRemoteKeys(): List<ArticRemoteKey>
 
     @Query("DELETE FROM ArticRemoteKey")
     suspend fun deleteAllArticRemoteKey()
