@@ -29,7 +29,8 @@ class ArticRemoteMediator @Inject constructor(
             val page = when (loadType) {
                 LoadType.APPEND -> {
                     val remoteKey =
-                        getLastRemoteKey(state) ?: throw InvalidObjectException("Last key empty")
+                        articDao.getMaxRemoteKey()
+                            ?: throw InvalidObjectException("Last key empty")
                     remoteKey.next ?: return MediatorResult.Success(endOfPaginationReached = true)
                 }
 
@@ -38,8 +39,7 @@ class ArticRemoteMediator @Inject constructor(
                 }
 
                 LoadType.REFRESH -> {
-                    val remoteKey = getClosestRemoteKey(state)
-                    remoteKey?.next?.minus(1) ?: initialPage
+                    initialPage
                 }
             }
 
@@ -51,7 +51,7 @@ class ArticRemoteMediator @Inject constructor(
                 val articEntityList = callGetArtic.body()?.let { articMapper.toDomain(it) }
                 val endOfPagination = articEntityList?.size!! < state.config.pageSize
 
-                val prev = if (page == initialPage) null else -1
+                val prev = if (page == initialPage) null else page - 1
                 val next = if (endOfPagination) null else page + 1
 
                 if (loadType == LoadType.REFRESH) {
@@ -81,16 +81,16 @@ class ArticRemoteMediator @Inject constructor(
     }
 
     private suspend fun getClosestRemoteKey(state: PagingState<Int, ArticEntity>): ArticRemoteKey? {
-        return state.anchorPosition?.let {
-            state.closestItemToPosition(it)?.let {
-                articDao.getAllRemoteKey(it.id)
+        return state.anchorPosition?.let { anchorPosition ->
+            state.closestItemToPosition(anchorPosition)?.let { articEntity ->
+                articDao.getAllRemoteKeysById(articEntity.id)
             }
         }
     }
 
     private suspend fun getLastRemoteKey(state: PagingState<Int, ArticEntity>): ArticRemoteKey? {
         return state.lastItemOrNull()?.let {
-            articDao.getAllRemoteKey(it.id)
+            articDao.getAllRemoteKeysById(it.id)
         }
     }
 }
