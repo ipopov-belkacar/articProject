@@ -29,8 +29,7 @@ class ArticRemoteMediator @Inject constructor(
             val page = when (loadType) {
                 LoadType.APPEND -> {
                     val remoteKey =
-                        getLastRemoteKey(state)
-                            ?: articDao.getAllRemoteKeys().lastOrNull()
+                        articDao.getMaxRemoteKey()
                             ?: throw InvalidObjectException("Last key empty")
                     remoteKey.next ?: return MediatorResult.Success(endOfPaginationReached = true)
                 }
@@ -40,8 +39,7 @@ class ArticRemoteMediator @Inject constructor(
                 }
 
                 LoadType.REFRESH -> {
-                    val remoteKey = getClosestRemoteKey(state)
-                    remoteKey?.next?.minus(1) ?: initialPage
+                    initialPage
                 }
             }
 
