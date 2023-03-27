@@ -4,6 +4,7 @@ import com.example.goncharov1.domain.entity.ArticEntity
 import javax.inject.Inject
 import javax.inject.Singleton
 
+@Deprecated("Not currently in use")
 @Singleton
 class ArticCacheImpl @Inject constructor() : ArticCache {
 
