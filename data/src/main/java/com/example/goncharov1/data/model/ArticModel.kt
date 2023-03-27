@@ -3,10 +3,10 @@ package com.example.goncharov1.data.model
 data class ArticModel(var data: List<ArticModelData>)
 
 data class ArticModelData(
-    var id: Int = 1,
-    var title: String = "Empty",
-    val department_title: String = "Empty",
-    val main_reference_number: String = "Empty",
-    val artist_display: String = "Empty",
-    val image_id: String? = "Empty"
+    var id: Int,
+    var title: String,
+    val department_title: String,
+    val main_reference_number: String,
+    val artist_display: String,
+    val image_id: String?
 )
