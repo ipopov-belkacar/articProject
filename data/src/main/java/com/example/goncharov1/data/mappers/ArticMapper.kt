@@ -2,8 +2,9 @@ package com.example.goncharov1.data.mappers
 
 import com.example.goncharov1.data.model.ArticModel
 import com.example.goncharov1.domain.entity.ArticEntity
+import javax.inject.Inject
 
-class ArticMapperImpl : ArticMapper {
+class ArticMapperImpl @Inject constructor() : ArticMapper {
     override fun toDomain(userModel: ArticModel): List<ArticEntity> {
         return userModel.data.map {
             ArticEntity(

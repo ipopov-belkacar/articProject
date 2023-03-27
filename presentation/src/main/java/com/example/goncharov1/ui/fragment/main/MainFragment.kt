@@ -47,7 +47,7 @@ class MainFragment : Fragment(), RecyclerViewClickListener {
         initAdapterAndViewModel()
 
         lifecycleScope.launchWhenCreated {
-            mainViewModel.getArtic.collectLatest {
+            mainViewModel.articListFlow.collectLatest {
                 articListAdapter.submitData(it)
             }
         }
