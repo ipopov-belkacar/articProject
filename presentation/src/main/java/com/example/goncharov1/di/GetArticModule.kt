@@ -8,32 +8,24 @@ import com.example.goncharov1.data.mappers.ArticMapperImpl
 import com.example.goncharov1.domain.MainRepository
 import com.example.goncharov1.domain.getArtic.GetArticUseCase
 import com.example.goncharov1.domain.getArtic.GetArticUseCaseImpl
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 
 @InstallIn(SingletonComponent::class)
 @Module
-class GetArticModule {
+abstract class GetArticModule {
 
-    @Provides
-    fun getArticCache(): ArticCache {
-        return ArticCacheImpl()
-    }
+    @Binds
+    abstract fun getArticCache(articCacheImpl: ArticCacheImpl): ArticCache
 
-    @Provides
-    fun getArticMapper(): ArticMapper {
-        return ArticMapperImpl()
-    }
+    @Binds
+    abstract fun getArticMapper(articMapperImpl: ArticMapperImpl): ArticMapper
 
-    @Provides
-    fun getMainRepository(articMapper: ArticMapper, articCache: ArticCache): MainRepository {
-        return MainRepositoryImpl(articMapper, articCache)
-    }
+    @Binds
+    abstract fun getMainRepository(mainRepositoryImpl: MainRepositoryImpl): MainRepository
 
-    @Provides
-    fun getArticUseCase(mainRepository: MainRepository): GetArticUseCase {
-        return GetArticUseCaseImpl(mainRepository)
-    }
+    @Binds
+    abstract fun getArticUseCase(getArticUseCaseImpl: GetArticUseCaseImpl): GetArticUseCase
 }
