@@ -54,18 +54,13 @@ class ArticRemoteMediator @Inject constructor(
                 val prev = if (page == initialPage) null else page - 1
                 val next = if (endOfPagination) null else page + 1
 
-                if (loadType == LoadType.REFRESH) {
-                    articDao.deleteAllArtic()
-                    articDao.deleteAllArticRemoteKey()
-                }
+                clearDataInDb(loadType)
 
                 val list = articEntityList.map {
                     ArticRemoteKey(id = it.id, prev, next)
                 }
 
-                if (list != null) {
-                    articDao.insertAllRemoteKey(list)
-                }
+                articDao.insertAllRemoteKey(list)
 
                 articDao.insertArticListEntity(articEntityList)
 
@@ -77,6 +72,13 @@ class ArticRemoteMediator @Inject constructor(
         } catch (e: Exception) {
             Log.e("Error remote mediator", e.toString())
             MediatorResult.Error(e)
+        }
+    }
+
+    private suspend fun clearDataInDb(loadType: LoadType) {
+        if (loadType == LoadType.REFRESH) {
+            articDao.deleteAllArtic()
+            articDao.deleteAllArticRemoteKey()
         }
     }
 

@@ -53,8 +53,10 @@ class ArticListAdapter(val recyclerViewClickListener: RecyclerViewClickListener)
             itemArtic?.imageId?.let {
                 Glide
                     .with(itemView.context)
-                    .load("https://www.artic.edu/iiif/2/${it}/full/843,/0/default.jpg")
-                    .override(600, 600)
+                    .load(contextView.getString(R.string.main_url_for_upload_image, it))
+                    .override(
+                        contextView.getString(R.string.standard_image_width).toInt(),
+                        contextView.getString(R.string.standard_image_height).toInt())
                     .centerCrop()
                     .placeholder(R.drawable.image_placeholder)
                     .into(binding.mainImage)

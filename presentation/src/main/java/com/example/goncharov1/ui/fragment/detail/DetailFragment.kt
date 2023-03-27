@@ -37,7 +37,8 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
-            textArtistDisplay.text = getString(R.string.artist_display_template, articItem?.artistDisplay)
+            textArtistDisplay.text =
+                getString(R.string.artist_display_template, articItem?.artistDisplay)
             textTitle.text = getString(R.string.title_display_template, articItem?.title)
         }
         uploadImage()
@@ -46,8 +47,10 @@ class DetailFragment : Fragment() {
     private fun uploadImage() {
         articItem?.imageId.let {
             Glide.with(this)
-                .load("https://www.artic.edu/iiif/2/${it}/full/843,/0/default.jpg")
-                .override(600, 600)
+                .load(requireContext().getString(R.string.main_url_for_upload_image, it))
+                .override(
+                    requireContext().getString(R.string.standard_image_width).toInt(),
+                    requireContext().getString(R.string.standard_image_height).toInt())
                 .centerCrop()
                 .placeholder(R.drawable.image_placeholder)
                 .into(binding.mainImage)

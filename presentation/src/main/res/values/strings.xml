@@ -4,4 +4,7 @@
     <string name="id_display_template">Id: %1$s</string>
     <string name="title_display_template">Title: %1$s</string>
     <string name="artist_display_template">Artist: %1$s</string>
+    <string name="main_url_for_upload_image">https://www.artic.edu/iiif/2/%1$s/full/843,/0/default.jpg</string>
+    <string name="standard_image_width">600</string>
+    <string name="standard_image_height">600</string>
 </resources>
