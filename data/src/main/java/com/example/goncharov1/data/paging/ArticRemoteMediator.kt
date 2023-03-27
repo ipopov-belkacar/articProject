@@ -93,6 +93,7 @@ class ArticRemoteMediator @Inject constructor(
         articDao.insertArticListEntity(articEntity)
     }
 
+    //Will be remake
     private suspend fun getClosestRemoteKey(state: PagingState<Int, ArticEntity>): ArticRemoteKey? {
         return state.anchorPosition?.let { anchorPosition ->
             state.closestItemToPosition(anchorPosition)?.let { articEntity ->
@@ -101,6 +102,7 @@ class ArticRemoteMediator @Inject constructor(
         }
     }
 
+    //Will be remake
     private suspend fun getLastRemoteKey(state: PagingState<Int, ArticEntity>): ArticRemoteKey? {
         return state.lastItemOrNull()?.let {
             articDao.getAllRemoteKeysById(it.id)
