@@ -14,6 +14,7 @@ class MainRepositoryImpl @Inject constructor(
     private val articCache: ArticCache
 ) : MainRepository {
 
+    @Deprecated("Not currently in use")
     override suspend fun getArtic(page: Int): List<ArticEntity> {
 
         val cashArticList = articCache.getArticList()

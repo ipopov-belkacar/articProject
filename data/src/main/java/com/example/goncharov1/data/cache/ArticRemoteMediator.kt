@@ -8,8 +8,10 @@ import androidx.paging.RemoteMediator
 import com.example.goncharov1.data.db.ArticDao
 import com.example.goncharov1.data.db.ArticRemoteKey
 import com.example.goncharov1.data.mappers.ArticMapper
+import com.example.goncharov1.data.model.ArticModel
 import com.example.goncharov1.data.network.RetrofitClient
 import com.example.goncharov1.domain.entity.ArticEntity
+import retrofit2.Response
 import java.io.InvalidObjectException
 import javax.inject.Inject
 
@@ -43,26 +45,22 @@ class ArticRemoteMediator @Inject constructor(
                 }
             }
 
-            val retrofit = RetrofitClient.create()
-            val callGetArtic = retrofit.getArtic(page)
+            val response = getRemoteArtic(page)
 
-            if (callGetArtic.isSuccessful) {
+            if (response.isSuccessful) {
 
-                val articEntityList = callGetArtic.body()?.let { articMapper.toDomain(it) }
+                val articEntityList = response.body()?.let { articMapper.toDomain(it) }
                 val endOfPagination = articEntityList?.size!! < state.config.pageSize
 
                 val prev = if (page == initialPage) null else page - 1
                 val next = if (endOfPagination) null else page + 1
 
-                clearDataInDb(loadType)
-
-                val list = articEntityList.map {
+                val listRemoteKey = articEntityList.map {
                     ArticRemoteKey(id = it.id, prev, next)
                 }
 
-                articDao.insertAllRemoteKey(list)
-
-                articDao.insertArticListEntity(articEntityList)
+                clearDataInDb(loadType)
+                insertRemoteKeyAndEntityArtic(listRemoteKey, articEntityList)
 
                 MediatorResult.Success(endOfPagination)
             } else {
@@ -75,11 +73,24 @@ class ArticRemoteMediator @Inject constructor(
         }
     }
 
+    private suspend fun getRemoteArtic(page: Int): Response<ArticModel> {
+        val retrofit = RetrofitClient.create()
+        return retrofit.getArtic(page)
+    }
+
     private suspend fun clearDataInDb(loadType: LoadType) {
         if (loadType == LoadType.REFRESH) {
             articDao.deleteAllArtic()
             articDao.deleteAllArticRemoteKey()
         }
+    }
+
+    private suspend fun insertRemoteKeyAndEntityArtic(
+        listRemoteKey: List<ArticRemoteKey>,
+        articEntity: List<ArticEntity>
+    ) {
+        articDao.insertAllRemoteKey(listRemoteKey)
+        articDao.insertArticListEntity(articEntity)
     }
 
     private suspend fun getClosestRemoteKey(state: PagingState<Int, ArticEntity>): ArticRemoteKey? {
