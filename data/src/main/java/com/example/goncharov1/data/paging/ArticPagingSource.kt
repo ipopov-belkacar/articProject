@@ -1,10 +1,11 @@
-package com.example.goncharov1.ui.recycler.paging
+package com.example.goncharov1.data.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.goncharov1.domain.entity.ArticEntity
 import com.example.goncharov1.domain.getArtic.GetArticUseCase
 
+@Deprecated("Not currently in use")
 class ArticPagingSource(private val getArticUseCase: GetArticUseCase) :
     PagingSource<Int, ArticEntity>() {
 
