@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Goncharov1</string>
     <string name="text_example">Text example</string>
+    <string name="id_display_template">Id: %1$s</string>
+    <string name="title_display_template">Title: %1$s</string>
+    <string name="artist_display_template">Artist: %1$s</string>
 </resources>

@@ -10,7 +10,7 @@ import com.example.goncharov1.R
 import com.example.goncharov1.databinding.ItemRecyclerViewBinding
 import com.example.goncharov1.domain.entity.ArticEntity
 
-class ArticListAdapter :
+class ArticListAdapter(val recyclerViewClickListener: RecyclerViewClickListener) :
     PagingDataAdapter<ArticEntity, ArticListAdapter.ArticViewHolder>(articDiffUtil) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticViewHolder {
@@ -21,6 +21,7 @@ class ArticListAdapter :
 
     override fun onBindViewHolder(holder: ArticViewHolder, position: Int) {
         holder.bind(getItem(position))
+        holder.bindClick(getItem(position))
     }
 
     companion object {
@@ -35,15 +36,17 @@ class ArticListAdapter :
         }
     }
 
-    class ArticViewHolder(var binding: ItemRecyclerViewBinding) :
+    inner class ArticViewHolder(var binding: ItemRecyclerViewBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
+        private val contextView = itemView.context
 
         fun bind(itemArtic: ArticEntity?) {
             with(binding) {
                 itemArtic?.let {
-                    textId.text = it.id.toString()
-                    textTitle.text = it.title
-                    textArtistDisplay.text = it.artistDisplay
+                    textId.text = contextView.getString(R.string.id_display_template, it.id.toString())
+                    textTitle.text = contextView.getString(R.string.title_display_template, it.title)
+                    textArtistDisplay.text = contextView.getString(R.string.artist_display_template, it.artistDisplay)
                 }
 
                 itemArtic?.imageId?.let {
@@ -55,6 +58,22 @@ class ArticListAdapter :
                         .placeholder(R.drawable.image_placeholder)
                         .into(mainImage)
                 }
+            }
+
+            itemArtic?.imageId?.let {
+                Glide
+                    .with(itemView.context)
+                    .load("https://www.artic.edu/iiif/2/${it}/full/843,/0/default.jpg")
+                    .override(600, 600)
+                    .centerCrop()
+                    .placeholder(R.drawable.image_placeholder)
+                    .into(binding.mainImage)
+            }
+        }
+
+        fun bindClick(itemArtic: ArticEntity?) {
+            binding.root.setOnClickListener {
+                recyclerViewClickListener.clickItemRecycler(itemArtic)
             }
         }
     }
