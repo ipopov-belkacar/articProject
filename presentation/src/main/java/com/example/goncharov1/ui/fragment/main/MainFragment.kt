@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.goncharov1.R
+import com.example.goncharov1.data.utils.DownloadImageLoader
 import com.example.goncharov1.databinding.FragmentMainBinding
 import com.example.goncharov1.domain.entity.ArticEntity
 import com.example.goncharov1.ui.fragment.detail.DetailFragment
@@ -33,6 +34,9 @@ class MainFragment : Fragment(), RecyclerViewClickListener {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
+    @Inject
+    lateinit var downloadImageLoader: DownloadImageLoader
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -54,7 +58,7 @@ class MainFragment : Fragment(), RecyclerViewClickListener {
     }
 
     private fun initAdapterAndViewModel() {
-        articListAdapter = ArticListAdapter(this)
+        articListAdapter = ArticListAdapter(this, downloadImageLoader)
         binding.list.adapter = articListAdapter
 
         mainViewModel = ViewModelProvider(
