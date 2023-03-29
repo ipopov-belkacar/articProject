@@ -8,11 +8,12 @@ import javax.inject.Inject
 private const val STANDARD_IMAGE_WIDTH = 600
 private const val STANDARD_IMAGE_HEIGHT = 600
 
-class DownloadImageLoaderImpl @Inject constructor() : DownloadImageLoader {
+class DownloadImageLoaderImpl @Inject constructor(
+    private val requestManager: RequestManager
+) : DownloadImageLoader {
     override fun downloadImage(
         urlImage: String,
         imagePlaceholder: Int,
-        requestManager: RequestManager
     ): RequestBuilder<Drawable> {
         return requestManager
             .load(urlImage)
