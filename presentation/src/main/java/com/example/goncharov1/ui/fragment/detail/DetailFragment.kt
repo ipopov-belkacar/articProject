@@ -5,20 +5,28 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.bumptech.glide.Glide
 import com.example.goncharov1.R
+import com.example.goncharov1.data.utils.DownloadImageLoader
 import com.example.goncharov1.databinding.FragmentDetailBinding
 import com.example.goncharov1.domain.entity.ArticEntity
 import com.google.gson.Gson
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.scopes.FragmentScoped
+import javax.inject.Inject
 
 private const val ARG_PARAM_ARTIC_ITEM = "paramArticItem"
 
+@FragmentScoped
+@AndroidEntryPoint
 class DetailFragment : Fragment() {
 
     private var articItem: ArticEntity? = null
 
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding!!
+
+    @Inject
+    lateinit var downloadImageLoader: DownloadImageLoader
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,14 +54,10 @@ class DetailFragment : Fragment() {
 
     private fun uploadImage() {
         articItem?.imageId.let {
-            Glide.with(this)
-                .load(requireContext().getString(R.string.main_url_for_upload_image, it))
-                .override(
-                    requireContext().getString(R.string.standard_image_width).toInt(),
-                    requireContext().getString(R.string.standard_image_height).toInt())
-                .centerCrop()
-                .placeholder(R.drawable.image_placeholder)
-                .into(binding.mainImage)
+            downloadImageLoader.downloadImage(
+                requireContext().getString(R.string.main_url_for_upload_image, it),
+                R.drawable.image_placeholder,
+            ).into(binding.mainImage)
         }
     }
 
