@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.example.goncharov1.R
 import com.example.goncharov1.data.utils.DownloadImageLoader
 import com.example.goncharov1.databinding.FragmentDetailBinding
@@ -56,7 +57,8 @@ class DetailFragment : Fragment() {
         articItem?.imageId.let {
             downloadImageLoader.downloadImage(
                 requireContext().getString(R.string.main_url_for_upload_image, it),
-                R.drawable.image_placeholder
+                R.drawable.image_placeholder,
+                Glide.with(requireContext())
             ).into(binding.mainImage)
         }
     }

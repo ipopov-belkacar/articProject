@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.goncharov1.R
 import com.example.goncharov1.data.utils.DownloadImageLoader
 import com.example.goncharov1.databinding.ItemRecyclerViewBinding
@@ -59,7 +60,8 @@ class ArticListAdapter(
             itemArtic?.imageId?.let {
                 downloadImageLoader.downloadImage(
                     itemView.context.getString(R.string.main_url_for_upload_image, it),
-                    R.drawable.image_placeholder
+                    R.drawable.image_placeholder,
+                    Glide.with(contextView)
                 ).into(binding.mainImage)
             }
         }
