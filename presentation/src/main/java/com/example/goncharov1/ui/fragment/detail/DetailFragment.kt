@@ -1,10 +1,9 @@
 package com.example.goncharov1.ui.fragment.detail
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.goncharov1.R
 import com.example.goncharov1.data.utils.DownloadImageLoader
 import com.example.goncharov1.databinding.FragmentDetailBinding
@@ -18,12 +17,11 @@ private const val ARG_PARAM_ARTIC_ITEM = "paramArticItem"
 
 @FragmentScoped
 @AndroidEntryPoint
-class DetailFragment : Fragment() {
+class DetailFragment : Fragment(R.layout.fragment_detail) {
+
+    private val binding by viewBinding(FragmentDetailBinding::bind)
 
     private var articItem: ArticEntity? = null
-
-    private var _binding: FragmentDetailBinding? = null
-    private val binding get() = _binding!!
 
     @Inject
     lateinit var downloadImageLoader: DownloadImageLoader
@@ -33,13 +31,6 @@ class DetailFragment : Fragment() {
         arguments?.let {
             articItem = Gson().fromJson(it.getString(ARG_PARAM_ARTIC_ITEM), ArticEntity::class.java)
         }
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentDetailBinding.inflate(inflater, container, false)
-        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -59,11 +50,6 @@ class DetailFragment : Fragment() {
                 R.drawable.image_placeholder,
             ).into(binding.mainImage)
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
     }
 
     companion object {
