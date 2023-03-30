@@ -3,6 +3,7 @@ package com.example.goncharov1.ui.fragment.main
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -27,13 +28,13 @@ class MainFragment : Fragment(R.layout.fragment_main), RecyclerViewClickListener
     private val binding by viewBinding(FragmentMainBinding::bind)
 
     private lateinit var articListAdapter: ArticListAdapter
-    private lateinit var mainViewModel: MainViewModel
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     @Inject
     lateinit var downloadImageLoader: DownloadImageLoader
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private val mainViewModel: MainViewModel by viewModels { viewModelFactory }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -50,11 +51,6 @@ class MainFragment : Fragment(R.layout.fragment_main), RecyclerViewClickListener
     private fun initAdapterAndViewModel() {
         articListAdapter = ArticListAdapter(this, downloadImageLoader)
         binding.list.adapter = articListAdapter
-
-        mainViewModel = ViewModelProvider(
-            this,
-            viewModelFactory
-        )[MainViewModel::class.java]
     }
 
     override fun clickItemRecycler(itemArtic: ArticEntity?) {
