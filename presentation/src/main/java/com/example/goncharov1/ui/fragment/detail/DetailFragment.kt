@@ -19,7 +19,7 @@ private const val ARG_PARAM_ARTIC_ITEM = "paramArticItem"
 @AndroidEntryPoint
 class DetailFragment : Fragment(R.layout.fragment_detail) {
 
-    private val binding by viewBinding(FragmentDetailBinding::bind)
+    private val binding: FragmentDetailBinding by viewBinding()
     private val viewModel: DetailViewModel by viewModels()
     private var articItem: ArticEntity? = null
 

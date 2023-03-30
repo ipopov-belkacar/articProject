@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.goncharov1.R
@@ -25,16 +24,13 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainFragment : Fragment(R.layout.fragment_main), RecyclerViewClickListener {
 
-    private val binding by viewBinding(FragmentMainBinding::bind)
+    private val binding: FragmentMainBinding by viewBinding()
+    private val mainViewModel: MainViewModel by viewModels()
 
     private lateinit var articListAdapter: ArticListAdapter
 
     @Inject
     lateinit var downloadImageLoader: DownloadImageLoader
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val mainViewModel: MainViewModel by viewModels { viewModelFactory }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

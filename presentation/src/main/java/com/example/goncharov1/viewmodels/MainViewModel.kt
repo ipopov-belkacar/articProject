@@ -4,9 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import com.example.goncharov1.data.paging.ArticRemoteMediator
 import com.example.goncharov1.data.db.ArticDao
 import com.example.goncharov1.data.mappers.ArticMapper
+import com.example.goncharov1.data.paging.ArticRemoteMediator
 import com.example.goncharov1.domain.getArtic.GetArticUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
