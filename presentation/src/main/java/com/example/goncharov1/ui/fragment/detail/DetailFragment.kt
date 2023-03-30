@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.goncharov1.R
 import com.example.goncharov1.databinding.FragmentDetailBinding
@@ -13,7 +12,6 @@ import com.example.goncharov1.viewmodels.DetailViewModel
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.scopes.FragmentScoped
-import javax.inject.Inject
 
 private const val ARG_PARAM_ARTIC_ITEM = "paramArticItem"
 
@@ -22,11 +20,8 @@ private const val ARG_PARAM_ARTIC_ITEM = "paramArticItem"
 class DetailFragment : Fragment(R.layout.fragment_detail) {
 
     private val binding by viewBinding(FragmentDetailBinding::bind)
+    private val viewModel: DetailViewModel by viewModels()
     private var articItem: ArticEntity? = null
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val viewModel: DetailViewModel by viewModels { viewModelFactory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
