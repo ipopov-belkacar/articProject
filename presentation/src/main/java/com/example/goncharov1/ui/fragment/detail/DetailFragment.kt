@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.goncharov1.R
 import com.example.goncharov1.data.utils.DownloadImageLoader
+import com.example.goncharov1.data.utils.GlideDownloadImageLoader
 import com.example.goncharov1.databinding.FragmentDetailBinding
 import com.example.goncharov1.domain.entity.ArticEntity
 import com.google.gson.Gson
@@ -56,8 +57,9 @@ class DetailFragment : Fragment() {
         articItem?.imageId.let {
             downloadImageLoader.downloadImage(
                 requireContext().getString(R.string.main_url_for_upload_image, it),
-                R.drawable.image_placeholder
-            ).into(binding.mainImage)
+                R.drawable.image_placeholder,
+                GlideDownloadImageLoader.GlideTarget(binding.mainImage)
+            )
         }
     }
 

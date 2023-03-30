@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.goncharov1.R
+import com.example.goncharov1.data.utils.GlideDownloadImageLoader
 import com.example.goncharov1.databinding.ItemRecyclerViewBinding
 import com.example.goncharov1.domain.entity.ArticEntity
 
@@ -59,7 +60,7 @@ class ArticListAdapter(val recyclerViewClickListener: RecyclerViewClickListener)
                         contextView.getString(R.string.standard_image_height).toInt())
                     .centerCrop()
                     .placeholder(R.drawable.image_placeholder)
-                    .into(binding.mainImage)
+                    .into(GlideDownloadImageLoader.GlideTarget(binding.mainImage))
             }
         }
 
