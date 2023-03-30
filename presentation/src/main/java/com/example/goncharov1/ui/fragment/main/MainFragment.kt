@@ -25,8 +25,9 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainFragment : Fragment(R.layout.fragment_main), RecyclerViewClickListener {
 
-    private val binding by viewBinding(FragmentMainBinding::bind)
+    private val binding: FragmentMainBinding by viewBinding()
 
+    private val mainViewModel: MainViewModel by viewModels { viewModelFactory }
     private lateinit var articListAdapter: ArticListAdapter
 
     @Inject
@@ -34,7 +35,6 @@ class MainFragment : Fragment(R.layout.fragment_main), RecyclerViewClickListener
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val mainViewModel: MainViewModel by viewModels { viewModelFactory }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
