@@ -3,11 +3,13 @@ package com.example.goncharov1.ui.fragment.detail
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.goncharov1.R
-import com.example.goncharov1.data.utils.DownloadImageLoader
 import com.example.goncharov1.databinding.FragmentDetailBinding
 import com.example.goncharov1.domain.entity.ArticEntity
+import com.example.goncharov1.viewmodels.DetailViewModel
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.scopes.FragmentScoped
@@ -20,11 +22,11 @@ private const val ARG_PARAM_ARTIC_ITEM = "paramArticItem"
 class DetailFragment : Fragment(R.layout.fragment_detail) {
 
     private val binding by viewBinding(FragmentDetailBinding::bind)
-
     private var articItem: ArticEntity? = null
 
     @Inject
-    lateinit var downloadImageLoader: DownloadImageLoader
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private val viewModel: DetailViewModel by viewModels { viewModelFactory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,15 +42,16 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
                 getString(R.string.artist_display_template, articItem?.artistDisplay)
             textTitle.text = getString(R.string.title_display_template, articItem?.title)
         }
-        uploadImage()
-    }
 
-    private fun uploadImage() {
+        viewModel.downloadImageLiveData.observe(viewLifecycleOwner) {
+            it.into(binding.mainImage)
+        }
+
         articItem?.imageId.let {
-            downloadImageLoader.downloadImage(
+            viewModel.downloadImage(
                 requireContext().getString(R.string.main_url_for_upload_image, it),
-                R.drawable.image_placeholder,
-            ).into(binding.mainImage)
+                R.drawable.image_placeholder
+            )
         }
     }
 
