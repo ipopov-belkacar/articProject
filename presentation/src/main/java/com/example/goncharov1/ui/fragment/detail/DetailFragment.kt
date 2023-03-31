@@ -42,12 +42,18 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
             it.into(binding.mainImage)
         }
 
+        viewModel.getArticEntityLiveData.observe(viewLifecycleOwner) {
+            println("!!!!!!!!!!!$it")
+        }
+
         articItem?.imageId.let {
             viewModel.downloadImage(
                 requireContext().getString(R.string.main_url_for_upload_image, it),
                 R.drawable.image_placeholder
             )
         }
+
+        viewModel.getArticById(articItem!!.id)
     }
 
     companion object {

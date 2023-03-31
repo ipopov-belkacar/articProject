@@ -1,10 +1,7 @@
-package com.example.goncharov1.domain
+package com.example.goncharov1.domain.getarticlist
 
 import com.example.goncharov1.domain.entity.ArticEntity
 
-interface MainRepository {
-
-    suspend fun getArtic(id: Int): ArticEntity
-
+interface GetArticListUseCase {
     suspend fun getArticList(page: Int): List<ArticEntity>
 }

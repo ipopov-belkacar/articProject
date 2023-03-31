@@ -1,4 +1,4 @@
-package com.example.goncharov1.data.cache
+package com.example.goncharov1.data.cache.inmemory
 
 import com.example.goncharov1.domain.entity.ArticEntity
 import javax.inject.Inject
@@ -6,7 +6,7 @@ import javax.inject.Singleton
 
 @Deprecated("Not currently in use")
 @Singleton
-class ArticCacheImpl @Inject constructor() : ArticCache {
+class ArticInMemoryCacheImpl @Inject constructor() : ArticInMemoryCache {
 
     private val cashListArtic: MutableList<ArticEntity> = mutableListOf()
 
