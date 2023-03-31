@@ -1,12 +1,11 @@
 package com.example.goncharov1.ui.fragment.main
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.goncharov1.R
 import com.example.goncharov1.data.utils.DownloadImageLoader
 import com.example.goncharov1.databinding.FragmentMainBinding
@@ -23,27 +22,15 @@ import javax.inject.Inject
 
 @FragmentScoped
 @AndroidEntryPoint
-class MainFragment : Fragment(), RecyclerViewClickListener {
+class MainFragment : Fragment(R.layout.fragment_main), RecyclerViewClickListener {
 
-    private var _binding: FragmentMainBinding? = null
-    private val binding get() = _binding!!
+    private val binding: FragmentMainBinding by viewBinding()
+    private val mainViewModel: MainViewModel by viewModels()
 
     private lateinit var articListAdapter: ArticListAdapter
-    private lateinit var mainViewModel: MainViewModel
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     @Inject
     lateinit var downloadImageLoader: DownloadImageLoader
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentMainBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -60,11 +47,6 @@ class MainFragment : Fragment(), RecyclerViewClickListener {
     private fun initAdapterAndViewModel() {
         articListAdapter = ArticListAdapter(this, downloadImageLoader)
         binding.list.adapter = articListAdapter
-
-        mainViewModel = ViewModelProvider(
-            this,
-            viewModelFactory
-        )[MainViewModel::class.java]
     }
 
     override fun clickItemRecycler(itemArtic: ArticEntity?) {
@@ -80,10 +62,5 @@ class MainFragment : Fragment(), RecyclerViewClickListener {
             transaction.addToBackStack("mainFragment")
             transaction.commit()
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
     }
 }

@@ -78,6 +78,12 @@ dependencies {
     implementation 'androidx.room:room-ktx:2.5.1'
     kapt "androidx.room:room-compiler:2.5.1"
 
+    //ViewBinding property delegate
+    implementation 'com.github.kirich1409:viewbindingpropertydelegate-full:1.5.8'
+
+    //Fragment ktx
+    implementation("androidx.fragment:fragment-ktx:1.5.6")
+
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
