@@ -36,11 +36,10 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
         }
 
         viewModel.getArticEntityLiveData.observe(viewLifecycleOwner) {
-            with(binding) {
-                textArtistDisplay.text =
-                    getString(R.string.artist_display_template, it.artistDisplay)
-                textTitle.text = getString(R.string.title_display_template, it.title)
-            }
+            attachViewToWindow(
+                artistDisplay = it.artistDisplay,
+                title = it.title
+            )
 
             viewModel.downloadImage(
                 requireContext().getString(R.string.main_url_for_upload_image, it.imageId),
@@ -50,6 +49,14 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
 
         articId?.let {
             viewModel.getArticById(it)
+        }
+    }
+
+    private fun attachViewToWindow(artistDisplay: String, title: String) {
+        with(binding) {
+            textArtistDisplay.text =
+                getString(R.string.artist_display_template, artistDisplay)
+            textTitle.text = getString(R.string.title_display_template, title)
         }
     }
 
