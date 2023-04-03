@@ -28,7 +28,7 @@ class DetailViewModel @Inject constructor(
     fun getArticById(id: Int) {
         try {
             viewModelScope.launch {
-                getArticEntityLiveData.postValue(getArticUseCase.getArtic(id))
+                _getArticEntityLiveData.postValue(getArticUseCase.getArtic(id))
             }
         } catch (e: java.lang.IllegalArgumentException) {
             Log.e(javaClass.simpleName, e.message.toString())
