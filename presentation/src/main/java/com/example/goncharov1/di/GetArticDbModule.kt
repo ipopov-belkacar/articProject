@@ -1,6 +1,8 @@
 package com.example.goncharov1.di
 
 import android.content.Context
+import com.example.goncharov1.data.cache.disk.ArticDiskCache
+import com.example.goncharov1.data.cache.disk.ArticDiskCacheImpl
 import com.example.goncharov1.data.db.ArticDao
 import com.example.goncharov1.data.db.ArticDatabase
 import dagger.Module
@@ -21,5 +23,10 @@ class GetArticDbModule {
     @Provides
     fun getArticDao(articDatabase: ArticDatabase): ArticDao {
         return articDatabase.getArticDao()
+    }
+
+    @Provides
+    fun getArticDiskCache(articDao: ArticDao): ArticDiskCache {
+        return ArticDiskCacheImpl(articDao)
     }
 }
