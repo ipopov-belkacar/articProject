@@ -8,6 +8,8 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.goncharov1.R
 import com.example.goncharov1.databinding.FragmentDetailBinding
 import com.example.goncharov1.viewmodels.DetailViewModel
+import com.example.goncharov1.viewmodels.Event
+import com.example.goncharov1.viewmodels.observe
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.scopes.FragmentScoped
 
@@ -31,20 +33,27 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.downloadImageLiveData.observe(viewLifecycleOwner) {
-            it.into(binding.mainImage)
-        }
+        viewModel.eventFlow.observe(viewLifecycleOwner) { event: Event ->
+            when (event) {
+                is Event.AttachImageToWindow -> event.requestBuilder.into(binding.mainImage)
 
-        viewModel.getArticEntityLiveData.observe(viewLifecycleOwner) {
-            attachViewToWindow(
-                artistDisplay = it.artistDisplay,
-                title = it.title
-            )
+                is Event.AttachViewToWindow -> {
+                    attachViewToWindow(
+                        artistDisplay = event.description,
+                        title = event.title
+                    )
+                }
 
-            viewModel.downloadImage(
-                requireContext().getString(R.string.main_url_for_upload_image, it.imageId),
-                R.drawable.image_placeholder
-            )
+                is Event.DownloadImageFromNetwork -> {
+                    event.imageId?.let {
+                        viewModel.downloadImage(
+                            urlImage = requireContext().getString(
+                                R.string.main_url_for_upload_image, it
+                            ), imagePlaceholder = R.drawable.image_placeholder
+                        )
+                    }
+                }
+            }
         }
 
         articId?.let {
