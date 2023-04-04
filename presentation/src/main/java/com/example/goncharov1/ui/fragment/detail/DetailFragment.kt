@@ -7,9 +7,9 @@ import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.goncharov1.R
 import com.example.goncharov1.databinding.FragmentDetailBinding
+import com.example.goncharov1.extensions.observe
 import com.example.goncharov1.viewmodels.DetailViewModel
 import com.example.goncharov1.viewmodels.Event
-import com.example.goncharov1.viewmodels.observe
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.scopes.FragmentScoped
 

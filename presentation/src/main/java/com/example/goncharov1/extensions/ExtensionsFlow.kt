@@ -1,4 +1,4 @@
-package com.example.goncharov1.viewmodels
+package com.example.goncharov1.extensions
 
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
