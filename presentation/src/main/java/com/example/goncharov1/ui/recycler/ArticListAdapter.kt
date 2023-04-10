@@ -66,7 +66,9 @@ class ArticListAdapter(
 
         fun bindClick(itemArtic: ArticEntity?) {
             binding.root.setOnClickListener {
-                recyclerViewClickListener.clickItemRecycler(itemArtic)
+                itemArtic?.let {
+                    recyclerViewClickListener.clickItemRecycler(it)
+                }
             }
         }
     }

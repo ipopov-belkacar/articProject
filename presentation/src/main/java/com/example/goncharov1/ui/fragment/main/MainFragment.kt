@@ -48,13 +48,8 @@ class MainFragment : Fragment(R.layout.fragment_main), RecyclerViewClickListener
         binding.list.adapter = articListAdapter
     }
 
-    override fun clickItemRecycler(itemArtic: ArticEntity?) {
-        val itemArticId = itemArtic?.let {
-            itemArtic.id
-        }
-        if (itemArticId != null) {
-            val action = MainFragmentDirections.actionMainFragmentToDetailFragment(itemArticId)
-            findNavController().navigate(action)
-        }
+    override fun clickItemRecycler(itemArtic: ArticEntity) {
+        val action = MainFragmentDirections.actionMainFragmentToDetailFragment(itemArtic.id)
+        findNavController().navigate(action)
     }
 }
