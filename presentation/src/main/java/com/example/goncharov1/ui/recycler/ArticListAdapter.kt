@@ -1,10 +1,9 @@
 package com.example.goncharov1.ui.recycler
 
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.goncharov1.R
 import com.example.goncharov1.data.utils.DownloadImageLoader
 import com.example.goncharov1.databinding.ItemRecyclerViewBinding
@@ -17,9 +16,7 @@ class ArticListAdapter(
     PagingDataAdapter<ArticEntity, ArticListAdapter.ArticViewHolder>(articDiffUtil) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticViewHolder {
-        val binding: ItemRecyclerViewBinding =
-            ItemRecyclerViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ArticViewHolder(binding)
+        return ArticViewHolder(parent)
     }
 
     override fun onBindViewHolder(holder: ArticViewHolder, position: Int) {
@@ -39,10 +36,13 @@ class ArticListAdapter(
         }
     }
 
-    inner class ArticViewHolder(var binding: ItemRecyclerViewBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    inner class ArticViewHolder(parent: ViewGroup) : SafeViewHolder(
+        R.layout.item_recycler_view, parent
+    ) {
 
         private val contextView = itemView.context
+
+        private val binding: ItemRecyclerViewBinding by viewBinding()
 
         fun bind(itemArtic: ArticEntity?) {
             with(binding) {
