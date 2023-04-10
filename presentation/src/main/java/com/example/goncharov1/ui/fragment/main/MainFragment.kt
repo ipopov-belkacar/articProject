@@ -5,12 +5,12 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.goncharov1.R
 import com.example.goncharov1.data.utils.DownloadImageLoader
 import com.example.goncharov1.databinding.FragmentMainBinding
 import com.example.goncharov1.domain.entity.ArticEntity
-import com.example.goncharov1.ui.fragment.detail.DetailFragment
 import com.example.goncharov1.ui.recycler.ArticListAdapter
 import com.example.goncharov1.ui.recycler.RecyclerViewClickListener
 import com.example.goncharov1.viewmodels.MainViewModel
@@ -48,18 +48,8 @@ class MainFragment : Fragment(R.layout.fragment_main), RecyclerViewClickListener
         binding.list.adapter = articListAdapter
     }
 
-    override fun clickItemRecycler(itemArtic: ArticEntity?) {
-        val transaction = requireActivity().supportFragmentManager.beginTransaction()
-        val detailFragment = itemArtic?.let {
-            DetailFragment.newInstance(
-                itemArtic.id
-            )
-        }
-
-        detailFragment?.let {
-            transaction.replace(R.id.fragmentContainerView, detailFragment)
-            transaction.addToBackStack("mainFragment")
-            transaction.commit()
-        }
+    override fun clickItemRecycler(itemArtic: ArticEntity) {
+        val action = MainFragmentDirections.actionMainFragmentToDetailFragment(itemArtic.id)
+        findNavController().navigate(action)
     }
 }

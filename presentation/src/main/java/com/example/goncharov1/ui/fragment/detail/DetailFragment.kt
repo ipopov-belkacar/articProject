@@ -68,15 +68,4 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
             textTitle.text = getString(R.string.title_display_template, title)
         }
     }
-
-    companion object {
-        @JvmStatic
-        fun newInstance(
-            articId: Int
-        ) = DetailFragment().apply {
-            arguments = Bundle().apply {
-                putInt(ARG_PARAM_ARTIC_ID, articId)
-            }
-        }
-    }
 }
