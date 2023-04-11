@@ -13,22 +13,12 @@ import com.example.goncharov1.viewmodels.Event
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.scopes.FragmentScoped
 
-private const val ARG_PARAM_ARTIC_ID = "paramArticId"
-
 @FragmentScoped
 @AndroidEntryPoint
 class DetailFragment : Fragment(R.layout.fragment_detail) {
 
     private val binding: FragmentDetailBinding by viewBinding()
     private val viewModel: DetailViewModel by viewModels()
-    private var articId: Int? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            articId = it.getInt(ARG_PARAM_ARTIC_ID)
-        }
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -56,9 +46,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
             }
         }
 
-        articId?.let {
-            viewModel.getArticById(it)
-        }
+        viewModel.getArticById()
     }
 
     private fun attachViewToWindow(artistDisplay: String, title: String) {
