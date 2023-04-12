@@ -12,14 +12,15 @@
         tools:layout="@layout/fragment_main">
         <action
             android:id="@+id/action_mainFragment_to_detailFragment"
-            app:destination="@id/detailFragment">
-            <argument
-                android:name="paramArticId"
-                app:argType="integer" />
-        </action>
+            app:destination="@id/detailFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.example.goncharov1.ui.fragment.detail.DetailFragment"
-        android:label="DetailFragment" />
+        android:label="DetailFragment">
+        <argument
+            android:name="paramArticId"
+            app:argType="integer" />
+    </fragment>
 </navigation>

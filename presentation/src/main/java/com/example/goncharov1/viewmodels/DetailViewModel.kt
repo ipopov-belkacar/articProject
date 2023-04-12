@@ -2,11 +2,13 @@ package com.example.goncharov1.viewmodels
 
 import android.graphics.drawable.Drawable
 import android.util.Log
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bumptech.glide.RequestBuilder
 import com.example.goncharov1.data.utils.DownloadImageLoader
 import com.example.goncharov1.domain.getartic.GetArticUseCase
+import com.example.goncharov1.ui.fragment.detail.DetailFragmentArgs
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -16,16 +18,18 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailViewModel @Inject constructor(
     private val downloadImageLoader: DownloadImageLoader,
-    private val getArticUseCase: GetArticUseCase
+    private val getArticUseCase: GetArticUseCase,
+    private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     private val eventChannel = Channel<Event>(Channel.BUFFERED)
     val eventFlow = eventChannel.receiveAsFlow()
 
-    fun getArticById(id: Int) {
-        try {
-            viewModelScope.launch {
-                val articEntity = getArticUseCase.getArtic(id)
+    fun getArticById() {
+        viewModelScope.launch {
+            try {
+                val articId = DetailFragmentArgs.fromSavedStateHandle(savedStateHandle).paramArticId
+                val articEntity = getArticUseCase.getArtic(articId)
 
                 eventChannel.send(
                     Event.AttachViewToWindow(
@@ -39,9 +43,10 @@ class DetailViewModel @Inject constructor(
                         imageId = articEntity.imageId
                     )
                 )
+
+            } catch (e: java.lang.IllegalArgumentException) {
+                Log.e(javaClass.simpleName, e.message.toString())
             }
-        } catch (e: java.lang.IllegalArgumentException) {
-            Log.e(javaClass.simpleName, e.message.toString())
         }
     }
 
