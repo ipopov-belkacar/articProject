@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.goncharov1.R
 import com.example.goncharov1.databinding.ActivityMainBinding
-import com.example.goncharov1.ui.fragment.main.MainFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -16,9 +15,5 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
-        supportFragmentManager.beginTransaction()
-            .add(R.id.fragmentContainerView, MainFragment())
-            .commit()
     }
 }
