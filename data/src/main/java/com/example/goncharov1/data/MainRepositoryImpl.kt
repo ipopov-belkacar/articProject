@@ -30,7 +30,7 @@ class MainRepositoryImpl @Inject constructor(
             val retrofit = RetrofitClient.create()
             val callGetArtic = retrofit.getArtic(page)
             val articEntityList = articMapper.toDomain(callGetArtic.body()!!)
-            articInMemoryCache.setArticList(articEntityList)
+//            articInMemoryCache.setArticList(articEntityList)
             articEntityList
         }
     }

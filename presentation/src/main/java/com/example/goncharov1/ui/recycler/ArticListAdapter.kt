@@ -2,7 +2,6 @@ package com.example.goncharov1.ui.recycler
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.goncharov1.R
@@ -13,8 +12,9 @@ import com.example.goncharov1.domain.entity.ArticEntity
 class ArticListAdapter(
     val recyclerViewClickListener: RecyclerViewClickListener,
     val downloadImageLoader: DownloadImageLoader
-) :
-    PagingDataAdapter<ArticEntity, ArticListAdapter.ArticViewHolder>(articDiffUtil) {
+) : RecyclerView.Adapter<ArticListAdapter.ArticViewHolder>() {
+
+    private var listArticEntity = mutableListOf<ArticEntity>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticViewHolder {
         val binding: ItemRecyclerViewBinding =
@@ -23,8 +23,15 @@ class ArticListAdapter(
     }
 
     override fun onBindViewHolder(holder: ArticViewHolder, position: Int) {
-        holder.bind(getItem(position))
-        holder.bindClick(getItem(position))
+        holder.bind(listArticEntity[position])
+        holder.bindClick(listArticEntity[position])
+    }
+
+    override fun getItemCount(): Int = listArticEntity.size
+
+    fun addListArtic(listArticEntity: List<ArticEntity>) {
+        this.listArticEntity.addAll(listArticEntity)
+        notifyDataSetChanged()
     }
 
     companion object {
@@ -44,19 +51,21 @@ class ArticListAdapter(
 
         private val contextView = itemView.context
 
-        fun bind(itemArtic: ArticEntity?) {
+        fun bind(articEntity: ArticEntity) {
+
             with(binding) {
-                itemArtic?.let {
-                    textId.text =
-                        contextView.getString(R.string.id_display_template, it.id.toString())
-                    textTitle.text =
-                        contextView.getString(R.string.title_display_template, it.title)
-                    textArtistDisplay.text =
-                        contextView.getString(R.string.artist_display_template, it.artistDisplay)
-                }
+                textId.text =
+                    contextView.getString(R.string.id_display_template, articEntity.id.toString())
+                textTitle.text =
+                    contextView.getString(R.string.title_display_template, articEntity.title)
+                textArtistDisplay.text =
+                    contextView.getString(
+                        R.string.artist_display_template,
+                        articEntity.artistDisplay
+                    )
             }
 
-            itemArtic?.imageId?.let {
+            articEntity.imageId?.let {
                 downloadImageLoader.downloadImage(
                     itemView.context.getString(R.string.main_url_for_upload_image, it),
                     R.drawable.image_placeholder,
@@ -64,9 +73,9 @@ class ArticListAdapter(
             }
         }
 
-        fun bindClick(itemArtic: ArticEntity?) {
+        fun bindClick(itemArtic: ArticEntity) {
             binding.root.setOnClickListener {
-                itemArtic?.let {
+                itemArtic.let {
                     recyclerViewClickListener.clickItemRecycler(it)
                 }
             }
