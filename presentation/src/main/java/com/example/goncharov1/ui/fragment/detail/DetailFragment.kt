@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.goncharov1.R
 import com.example.goncharov1.databinding.FragmentDetailBinding
@@ -47,6 +48,10 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
         }
 
         viewModel.getArticById()
+
+        binding.toolbar.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
     private fun attachViewToWindow(artistDisplay: String, title: String) {
