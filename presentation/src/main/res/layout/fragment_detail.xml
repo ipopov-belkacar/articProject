@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="sans-serif-black"
-            android:text="Detail screen"
+            android:text="@string/detail"
             android:textSize="20sp" />
     </androidx.appcompat.widget.Toolbar>
 

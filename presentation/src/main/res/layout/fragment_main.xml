@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="sans-serif-black"
-            android:text="Main screen"
+            android:text="@string/main"
             android:textSize="20sp" />
     </androidx.appcompat.widget.Toolbar>
 
