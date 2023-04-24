@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.Toolbar
+    <com.example.goncharov1.ui.fragment.main.CustomToolBarView
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,7 +16,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@drawable/back_arrow">
+        app:sashaFinger="true">
 
         <TextView
             android:layout_width="wrap_content"
@@ -25,7 +25,7 @@
             android:fontFamily="sans-serif-black"
             android:text="@string/detail"
             android:textSize="20sp" />
-    </androidx.appcompat.widget.Toolbar>
+    </com.example.goncharov1.ui.fragment.main.CustomToolBarView>
 
     <LinearLayout
         android:id="@+id/linear_text_layout"
