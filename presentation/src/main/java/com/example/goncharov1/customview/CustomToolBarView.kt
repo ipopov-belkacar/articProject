@@ -8,7 +8,7 @@ import com.example.goncharov1.R
 
 class CustomToolBarView : Toolbar {
 
-    private var sashaFinger: Boolean = false
+    private var sashaFingerBackArrow: Boolean = false
 
     constructor(context: Context) : super(context)
 
@@ -18,7 +18,7 @@ class CustomToolBarView : Toolbar {
             R.styleable.customToolBar,
             0, 0
         ).apply {
-            sashaFinger = getBoolean(R.styleable.customToolBar_sashaFinger, false)
+            sashaFingerBackArrow = getBoolean(R.styleable.customToolBar_sashaFingerBackArrow, false)
         }
     }
 
@@ -30,7 +30,7 @@ class CustomToolBarView : Toolbar {
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-        if (sashaFinger) {
+        if (sashaFingerBackArrow) {
             setNavigationIcon(R.drawable.back_arrow)
         }
     }
