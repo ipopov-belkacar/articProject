@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.example.goncharov1.ui.fragment.main.CustomToolBarView
+    <com.example.goncharov1.customview.CustomToolBarView
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,7 +25,7 @@
             android:fontFamily="sans-serif-black"
             android:text="@string/detail"
             android:textSize="20sp" />
-    </com.example.goncharov1.ui.fragment.main.CustomToolBarView>
+    </com.example.goncharov1.customview.CustomToolBarView>
 
     <LinearLayout
         android:id="@+id/linear_text_layout"

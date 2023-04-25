@@ -1,4 +1,4 @@
-package com.example.goncharov1.ui.fragment.main
+package com.example.goncharov1.customview
 
 import android.content.Context
 import android.graphics.Canvas
