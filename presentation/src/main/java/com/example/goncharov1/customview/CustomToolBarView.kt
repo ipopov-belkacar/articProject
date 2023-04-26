@@ -6,13 +6,15 @@ import android.util.AttributeSet
 import androidx.appcompat.widget.Toolbar
 import com.example.goncharov1.R
 
-class CustomToolBarView : Toolbar {
+class CustomToolBarView @JvmOverloads constructor(
+    context: Context,
+    attributeSet: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) : Toolbar(context, attributeSet, defStyleAttr) {
 
     private var sashaFingerBackArrow: Boolean = false
 
-    constructor(context: Context) : super(context)
-
-    constructor(context: Context, attributeSet: AttributeSet) : super(context, attributeSet) {
+    init {
         context.theme.obtainStyledAttributes(
             attributeSet,
             R.styleable.customToolBar,
@@ -21,12 +23,6 @@ class CustomToolBarView : Toolbar {
             sashaFingerBackArrow = getBoolean(R.styleable.customToolBar_sashaFingerBackArrow, false)
         }
     }
-
-    constructor(context: Context, attributeSet: AttributeSet, defStyleAttr: Int) : super(
-        context,
-        attributeSet,
-        defStyleAttr
-    )
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
