@@ -10,15 +10,19 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
 class GetArticImageGlideModule {
+
+    @Singleton
     @Provides
     fun getDownloadImageLoader(requestManager: RequestManager): DownloadImageLoader {
         return DownloadImageLoaderImpl(requestManager)
     }
 
+    @Singleton
     @Provides
     fun getRequestManager(@ApplicationContext context: Context): RequestManager {
         return Glide.with(context)
