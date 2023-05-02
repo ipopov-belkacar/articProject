@@ -6,21 +6,21 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import com.example.goncharov1.data.db.ArticDao
-import com.example.goncharov1.data.db.ArticRemoteKey
 import com.example.goncharov1.data.mappers.ArticMapper
 import com.example.goncharov1.data.model.ArticModel
 import com.example.goncharov1.data.network.RetrofitClient
 import com.example.goncharov1.domain.entity.ArticEntity
 import retrofit2.Response
-import java.io.InvalidObjectException
 import javax.inject.Inject
 
 @OptIn(ExperimentalPagingApi::class)
 class ArticRemoteMediator @Inject constructor(
     private val articDao: ArticDao,
-    private val initialPage: Int = 1,
     private var articMapper: ArticMapper
 ) : RemoteMediator<Int, ArticEntity>() {
+
+    private var nextPage = 1
+    private val retrofit = RetrofitClient.create()
 
     override suspend fun load(
         loadType: LoadType,
@@ -30,10 +30,7 @@ class ArticRemoteMediator @Inject constructor(
         return try {
             val page = when (loadType) {
                 LoadType.APPEND -> {
-                    val remoteKey =
-                        articDao.getMaxRemoteKey()
-                            ?: throw InvalidObjectException("Last key empty")
-                    remoteKey.next ?: return MediatorResult.Success(endOfPaginationReached = true)
+                    nextPage
                 }
 
                 LoadType.PREPEND -> {
@@ -41,7 +38,7 @@ class ArticRemoteMediator @Inject constructor(
                 }
 
                 LoadType.REFRESH -> {
-                    initialPage
+                    nextPage
                 }
             }
 
@@ -50,19 +47,10 @@ class ArticRemoteMediator @Inject constructor(
             if (response.isSuccessful) {
 
                 val articEntityList = response.body()?.let { articMapper.toDomain(it) }
-                val endOfPagination = articEntityList?.size!! < state.config.pageSize
+                articDao.insertArticListEntity(articEntityList)
+                nextPage++
 
-                val prev = if (page == initialPage) null else page - 1
-                val next = if (endOfPagination) null else page + 1
-
-                val listRemoteKey = articEntityList.map {
-                    ArticRemoteKey(id = it.id, prev, next)
-                }
-
-                clearDataInDb(loadType)
-                insertRemoteKeyAndEntityArtic(listRemoteKey, articEntityList)
-
-                MediatorResult.Success(endOfPagination)
+                MediatorResult.Success(false)
             } else {
                 MediatorResult.Success(endOfPaginationReached = true)
             }
@@ -74,38 +62,6 @@ class ArticRemoteMediator @Inject constructor(
     }
 
     private suspend fun getRemoteArtic(page: Int): Response<ArticModel> {
-        val retrofit = RetrofitClient.create()
         return retrofit.getArtic(page)
-    }
-
-    private suspend fun clearDataInDb(loadType: LoadType) {
-        if (loadType == LoadType.REFRESH) {
-            articDao.deleteAllArtic()
-            articDao.deleteAllArticRemoteKey()
-        }
-    }
-
-    private suspend fun insertRemoteKeyAndEntityArtic(
-        listRemoteKey: List<ArticRemoteKey>,
-        articEntity: List<ArticEntity>
-    ) {
-        articDao.insertAllRemoteKey(listRemoteKey)
-        articDao.insertArticListEntity(articEntity)
-    }
-
-    //Will be remake
-    private suspend fun getClosestRemoteKey(state: PagingState<Int, ArticEntity>): ArticRemoteKey? {
-        return state.anchorPosition?.let { anchorPosition ->
-            state.closestItemToPosition(anchorPosition)?.let { articEntity ->
-                articDao.getAllRemoteKeysById(articEntity.id)
-            }
-        }
-    }
-
-    //Will be remake
-    private suspend fun getLastRemoteKey(state: PagingState<Int, ArticEntity>): ArticRemoteKey? {
-        return state.lastItemOrNull()?.let {
-            articDao.getAllRemoteKeysById(it.id)
-        }
     }
 }

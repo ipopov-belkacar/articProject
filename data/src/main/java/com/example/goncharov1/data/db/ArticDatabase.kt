@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.goncharov1.domain.entity.ArticEntity
 
-@Database(entities = [ArticEntity::class, ArticRemoteKey::class], version = 1)
+@Database(entities = [ArticEntity::class], version = 1)
 abstract class ArticDatabase : RoomDatabase() {
     companion object {
         fun getInstance(context: Context): ArticDatabase {
