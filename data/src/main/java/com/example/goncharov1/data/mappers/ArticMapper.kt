@@ -8,8 +8,8 @@ class ArticMapperImpl @Inject constructor() : ArticMapper {
     override fun toDomain(userModel: ArticModel): List<ArticEntity> {
         return userModel.data.map {
             ArticEntity(
-                id = 0,
-                remoteId = it.id,
+                id = it.id,
+                remoteId = 0,
                 title = it.title,
                 artistDisplay = it.artist_display,
                 imageId = it.image_id,

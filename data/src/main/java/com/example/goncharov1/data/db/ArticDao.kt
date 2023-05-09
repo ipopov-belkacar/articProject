@@ -18,4 +18,10 @@ interface ArticDao {
 
     @Query("DELETE FROM ArticEntity")
     suspend fun deleteAllArtic()
+
+    @Transaction
+    suspend fun refresh(listArtic: List<ArticEntity>?) {
+        deleteAllArtic()
+        insertArticListEntity(listArtic)
+    }
 }

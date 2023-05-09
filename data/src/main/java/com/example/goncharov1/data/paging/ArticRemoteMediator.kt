@@ -19,38 +19,30 @@ class ArticRemoteMediator @Inject constructor(
     private var articMapper: ArticMapper
 ) : RemoteMediator<Int, ArticEntity>() {
 
-    private var nextPage = 1
     private val retrofit = RetrofitClient.create()
+    private var pageIndex = 1
 
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, ArticEntity>
     ): MediatorResult {
 
+        pageIndex = getPageIndex(loadType) ?:
+            return MediatorResult.Success(endOfPaginationReached = true)
+
         return try {
-            val page = when (loadType) {
-                LoadType.APPEND -> {
-                    nextPage
-                }
-
-                LoadType.PREPEND -> {
-                    return MediatorResult.Success(endOfPaginationReached = true)
-                }
-
-                LoadType.REFRESH -> {
-                    nextPage
-                }
-            }
-
-            val response = getRemoteArtic(page)
+            val response = getRemoteArtic(pageIndex)
 
             if (response.isSuccessful) {
-
                 val articEntityList = response.body()?.let { articMapper.toDomain(it) }
-                articDao.insertArticListEntity(articEntityList)
-                nextPage++
+                val endOfPagination = articEntityList?.size!! < state.config.pageSize
 
-                MediatorResult.Success(false)
+                if (loadType == LoadType.REFRESH) {
+                    articDao.refresh(articEntityList)
+                } else {
+                    articDao.insertArticListEntity(articEntityList)
+                }
+                MediatorResult.Success(endOfPagination)
             } else {
                 MediatorResult.Success(endOfPaginationReached = true)
             }
@@ -59,6 +51,15 @@ class ArticRemoteMediator @Inject constructor(
             Log.e("Error remote mediator", e.toString())
             MediatorResult.Error(e)
         }
+    }
+
+    private fun getPageIndex(loadType: LoadType): Int? {
+        pageIndex = when (loadType) {
+            LoadType.REFRESH -> 1
+            LoadType.PREPEND -> return null
+            LoadType.APPEND -> ++pageIndex
+        }
+        return pageIndex
     }
 
     private suspend fun getRemoteArtic(page: Int): Response<ArticModel> {
