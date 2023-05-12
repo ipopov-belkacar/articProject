@@ -20,7 +20,7 @@ class MainViewModel @Inject constructor(
 
     @OptIn(ExperimentalPagingApi::class)
     val articListFlow =
-        Pager(PagingConfig(12), remoteMediator = ArticRemoteMediator(articDao, 1, articMapper)) {
+        Pager(PagingConfig(12), remoteMediator = ArticRemoteMediator(articDao, articMapper)) {
             articDao.getAllArtic()
         }.flow
 }

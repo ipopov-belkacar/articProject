@@ -5,7 +5,8 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class ArticEntity(
-    @PrimaryKey(autoGenerate = false)
+    @PrimaryKey(autoGenerate = true)
+    var remoteId: Int,
     var id: Int,
     var title: String,
     val artistDisplay: String,

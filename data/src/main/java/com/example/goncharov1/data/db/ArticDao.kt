@@ -1,10 +1,7 @@
 package com.example.goncharov1.data.db
 
 import androidx.paging.PagingSource
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.example.goncharov1.domain.entity.ArticEntity
 
 @Dao
@@ -22,15 +19,9 @@ interface ArticDao {
     @Query("DELETE FROM ArticEntity")
     suspend fun deleteAllArtic()
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAllRemoteKey(listRemoteKet: List<ArticRemoteKey>)
-
-    @Query("SELECT * FROM ArticRemoteKey WHERE id = :id")
-    suspend fun getAllRemoteKeysById(id: Int): ArticRemoteKey?
-
-    @Query("SELECT * FROM ArticRemoteKey WHERE next = (SELECT MAX(next) FROM ArticRemoteKey)")
-    suspend fun getMaxRemoteKey(): ArticRemoteKey?
-
-    @Query("DELETE FROM ArticRemoteKey")
-    suspend fun deleteAllArticRemoteKey()
+    @Transaction
+    suspend fun refresh(listArtic: List<ArticEntity>?) {
+        deleteAllArtic()
+        insertArticListEntity(listArtic)
+    }
 }
