@@ -9,6 +9,7 @@ class ArticMapperImpl @Inject constructor() : ArticMapper {
         return userModel.data.map {
             ArticEntity(
                 id = it.id,
+                remoteId = 0,
                 title = it.title,
                 artistDisplay = it.artist_display,
                 imageId = it.image_id,
