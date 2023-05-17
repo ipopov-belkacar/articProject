@@ -16,6 +16,7 @@ import com.example.goncharov1.ui.recycler.RecyclerViewClickListener
 import com.example.goncharov1.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.scopes.FragmentScoped
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
 
@@ -38,6 +39,8 @@ class MainFragment : Fragment(R.layout.fragment_main), RecyclerViewClickListener
 
         lifecycleScope.launchWhenCreated {
             mainViewModel.articListFlow.collectLatest {
+                val countData = articListAdapter.itemCount
+                if (enableProgressBarIfNeeded(countData)) delay(1200)
                 articListAdapter.submitData(it)
             }
         }
@@ -46,6 +49,16 @@ class MainFragment : Fragment(R.layout.fragment_main), RecyclerViewClickListener
     private fun initAdapterAndViewModel() {
         articListAdapter = ArticListAdapter(this, downloadImageLoader)
         binding.list.adapter = articListAdapter
+    }
+
+    private fun enableProgressBarIfNeeded(countData: Int): Boolean {
+        return if (countData == 0) {
+            binding.progressBar.visibility = View.VISIBLE
+            true
+        } else {
+            binding.progressBar.visibility = View.GONE
+            false
+        }
     }
 
     override fun clickItemRecycler(itemArtic: ArticEntity) {
