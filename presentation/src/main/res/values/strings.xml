@@ -7,4 +7,5 @@
     <string name="main_url_for_upload_image">https://www.artic.edu/iiif/2/%1$s/full/843,/0/default.jpg</string>
     <string name="detail">Detail screen</string>
     <string name="main">Main screen</string>
+    <string name="profile">Profile screen</string>
 </resources>

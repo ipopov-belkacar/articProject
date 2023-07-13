@@ -41,6 +41,10 @@ class MainFragment : Fragment(R.layout.fragment_main), RecyclerViewClickListener
                 articListAdapter.submitData(it)
             }
         }
+
+        binding.btnGoProfile.setOnClickListener {
+            findNavController().navigate(MainFragmentDirections.actionMainFragmentToProfileFragment())
+        }
     }
 
     private fun initAdapterAndViewModel() {
