@@ -2,15 +2,14 @@ package com.example.goncharov1.ui.fragment.main
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.goncharov1.R
 import com.example.goncharov1.data.utils.DownloadImageLoader
 import com.example.goncharov1.databinding.FragmentMainBinding
 import com.example.goncharov1.domain.entity.ArticEntity
+import com.example.goncharov1.ui.base.BaseFragment
 import com.example.goncharov1.ui.recycler.ArticListAdapter
 import com.example.goncharov1.ui.recycler.RecyclerViewClickListener
 import com.example.goncharov1.viewmodels.MainViewModel
@@ -21,7 +20,7 @@ import javax.inject.Inject
 
 @FragmentScoped
 @AndroidEntryPoint
-class MainFragment : Fragment(R.layout.fragment_main), RecyclerViewClickListener {
+class MainFragment : BaseFragment(R.layout.fragment_main), RecyclerViewClickListener {
 
     private val binding: FragmentMainBinding by viewBinding()
     private val mainViewModel: MainViewModel by viewModels()
@@ -43,7 +42,7 @@ class MainFragment : Fragment(R.layout.fragment_main), RecyclerViewClickListener
         }
 
         binding.btnGoProfile.setOnClickListener {
-            findNavController().navigate(MainFragmentDirections.actionMainFragmentToProfileFragment())
+            MainFragmentDirections.actionMainFragmentToProfileFragment().navigate()
         }
     }
 
@@ -53,7 +52,6 @@ class MainFragment : Fragment(R.layout.fragment_main), RecyclerViewClickListener
     }
 
     override fun clickItemRecycler(itemArtic: ArticEntity) {
-        val action = MainFragmentDirections.actionMainFragmentToDetailFragment(itemArtic.id)
-        findNavController().navigate(action)
+        MainFragmentDirections.actionMainFragmentToDetailFragment(itemArtic.id).navigate()
     }
 }

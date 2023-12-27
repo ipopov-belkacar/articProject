@@ -2,13 +2,12 @@ package com.example.goncharov1.ui.fragment.detail
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.goncharov1.R
 import com.example.goncharov1.databinding.FragmentDetailBinding
 import com.example.goncharov1.extensions.observe
+import com.example.goncharov1.ui.base.BaseFragment
 import com.example.goncharov1.viewmodels.DetailViewModel
 import com.example.goncharov1.viewmodels.Event
 import dagger.hilt.android.AndroidEntryPoint
@@ -16,7 +15,7 @@ import dagger.hilt.android.scopes.FragmentScoped
 
 @FragmentScoped
 @AndroidEntryPoint
-class DetailFragment : Fragment(R.layout.fragment_detail) {
+class DetailFragment : BaseFragment(R.layout.fragment_detail) {
 
     private val binding: FragmentDetailBinding by viewBinding()
     private val viewModel: DetailViewModel by viewModels()
@@ -50,7 +49,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
         viewModel.getArticById()
 
         binding.toolbar.setNavigationOnClickListener {
-            findNavController().popBackStack()
+            goBack()
         }
     }
 
