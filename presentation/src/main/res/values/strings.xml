@@ -8,4 +8,5 @@
     <string name="detail">Detail screen</string>
     <string name="main">Main screen</string>
     <string name="profile">Profile screen</string>
+    <string name="default_error_message">Oops there was an error</string>
 </resources>

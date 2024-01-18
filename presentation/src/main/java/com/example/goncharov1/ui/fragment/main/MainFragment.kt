@@ -23,7 +23,7 @@ import javax.inject.Inject
 class MainFragment : BaseFragment(R.layout.fragment_main), RecyclerViewClickListener {
 
     private val binding: FragmentMainBinding by viewBinding()
-    private val mainViewModel: MainViewModel by viewModels()
+    override val viewModel: MainViewModel by viewModels()
 
     private lateinit var articListAdapter: ArticListAdapter
 
@@ -36,7 +36,7 @@ class MainFragment : BaseFragment(R.layout.fragment_main), RecyclerViewClickList
         initAdapterAndViewModel()
 
         lifecycleScope.launchWhenCreated {
-            mainViewModel.articListFlow.collectLatest {
+            viewModel.articListFlow.collectLatest {
                 articListAdapter.submitData(it)
             }
         }

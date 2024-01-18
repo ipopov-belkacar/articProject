@@ -18,7 +18,7 @@ import dagger.hilt.android.scopes.FragmentScoped
 class DetailFragment : BaseFragment(R.layout.fragment_detail) {
 
     private val binding: FragmentDetailBinding by viewBinding()
-    private val viewModel: DetailViewModel by viewModels()
+    override val viewModel: DetailViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
