@@ -36,7 +36,7 @@ class MainFragment : BaseFragment(R.layout.fragment_main), RecyclerViewClickList
         initAdapterAndViewModel()
 
         lifecycleScope.launchWhenCreated {
-            viewModel.articListFlow.collectLatest {
+            viewModel.articListFlow().collectLatest {
                 articListAdapter.submitData(it)
             }
         }
