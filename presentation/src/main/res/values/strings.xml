@@ -9,4 +9,8 @@
     <string name="main">Main screen</string>
     <string name="profile">Profile screen</string>
     <string name="default_error_message">Oops there was an error</string>
+    <string name="name">Name</string>
+    <string name="last_name">Last name</string>
+    <string name="date_of_birth">Date of birth</string>
+    <string name="unknown">Unknown</string>
 </resources>
