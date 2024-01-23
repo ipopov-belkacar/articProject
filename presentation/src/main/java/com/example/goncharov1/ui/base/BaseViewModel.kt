@@ -11,8 +11,8 @@ open class BaseViewModel : ViewModel() {
     private val _screenState = MutableStateFlow<ScreenState>(ScreenState.None())
     val screenState = _screenState.asStateFlow()
 
-    protected fun none() = viewModelScope.launch {
-        _screenState.emit(ScreenState.None())
+    protected fun success() = viewModelScope.launch {
+        _screenState.emit(ScreenState.Success())
     }
 
     protected fun sendError(error: String?) = viewModelScope.launch {
@@ -21,5 +21,9 @@ open class BaseViewModel : ViewModel() {
 
     protected fun loading() = viewModelScope.launch {
         _screenState.emit(ScreenState.Loading())
+    }
+
+    protected fun none() = viewModelScope.launch {
+        _screenState.emit(ScreenState.None())
     }
 }

@@ -28,6 +28,11 @@ abstract class BaseFragment(layoutId: Int) : Fragment(layoutId) {
 
     private fun processScreenState(screenState: ScreenState) {
         when (screenState) {
+
+            is ScreenState.Success -> {
+                success()
+            }
+
             is ScreenState.Loading -> {
                 loading(true)
             }
@@ -42,6 +47,8 @@ abstract class BaseFragment(layoutId: Int) : Fragment(layoutId) {
             }
         }
     }
+
+    protected open fun success() {}
 
     protected open fun loading(loading: Boolean) {}
 

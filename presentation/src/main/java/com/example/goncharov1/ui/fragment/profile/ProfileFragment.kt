@@ -31,6 +31,10 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
         binding.toolbar.setNavigationOnClickListener {
             goBack()
         }
+
+        binding.edit.setOnClickListener {
+            ProfileFragmentDirections.actionProfileFragmentToProfileEditFragment().navigate()
+        }
     }
 
     private fun initData() {

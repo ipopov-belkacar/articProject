@@ -8,9 +8,14 @@
     <string name="detail">Detail screen</string>
     <string name="main">Main screen</string>
     <string name="profile">Profile screen</string>
+    <string name="profile_edit">Profile Edit</string>
     <string name="default_error_message">Oops there was an error</string>
     <string name="name">Name</string>
     <string name="last_name">Last name</string>
     <string name="date_of_birth">Date of birth</string>
     <string name="unknown">Unknown</string>
+    <string name="data_saved">Data saved successfully</string>
+    <string name="save">Save</string>
+    <string name="check_entered_name">Check your entered name</string>
+    <string name="check_entered_last_name">Check your entered name</string>
 </resources>

@@ -26,6 +26,15 @@
             android:text="@string/profile"
             android:textSize="20sp" />
 
+        <ImageView
+            android:id="@+id/edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginEnd="20dp"
+            android:padding="8dp"
+            android:src="@drawable/icon_edit" />
+
     </com.example.goncharov1.customview.CustomToolBarView>
 
     <ImageView
@@ -52,7 +61,6 @@
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:gravity="center"
             android:hint="@string/name"
             android:maxLines="1"
             android:textSize="16sp"
@@ -64,7 +72,6 @@
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginTop="12dp"
-            android:gravity="center"
             android:hint="@string/last_name"
             android:maxLines="1"
             android:textSize="16sp"
@@ -76,7 +83,6 @@
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginTop="12dp"
-            android:gravity="center"
             android:hint="@string/date_of_birth"
             android:maxLines="1"
             android:textSize="16sp"
@@ -84,5 +90,6 @@
             app:layout_constraintStart_toEndOf="@+id/imageView" />
 
     </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
