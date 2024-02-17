@@ -28,12 +28,14 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
 
         initData()
 
-        binding.toolbar.setNavigationOnClickListener {
-            goBack()
-        }
+        with(binding) {
+            toolbar.setNavigationOnClickListener {
+                goBack()
+            }
 
-        binding.edit.setOnClickListener {
-            ProfileFragmentDirections.actionProfileFragmentToProfileEditFragment().navigate()
+            edit.setOnClickListener {
+                ProfileFragmentDirections.actionProfileFragmentToProfileEditFragment().navigate()
+            }
         }
     }
 

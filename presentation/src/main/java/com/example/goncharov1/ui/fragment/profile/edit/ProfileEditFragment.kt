@@ -19,17 +19,19 @@ class ProfileEditFragment : BaseFragment(R.layout.fragment_profile_edit) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.btnSave.setOnClickListener {
-            saveUserData()
-        }
+        with(binding) {
+            btnSave.setOnClickListener {
+                saveUserData()
+            }
 
-        binding.toolbar.setNavigationOnClickListener {
-            goBack()
+            toolbar.setNavigationOnClickListener {
+                goBack()
+            }
         }
     }
 
     private fun saveUserData() {
-        binding.apply {
+        with(binding) {
             val name = edName.text.trim().toString()
             val lastName = edLastName.text.trim().toString()
 

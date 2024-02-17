@@ -4,14 +4,6 @@ import android.content.SharedPreferences
 
 class SharedPreferencesHelper(private val sharedPreferences: SharedPreferences) {
 
-    companion object {
-
-        //User
-        const val USER_NAME = "userName"
-        const val USER_LAST_NAME = "userLastName"
-
-    }
-
     var userName: String
         get() = sharedPreferences.getString(USER_NAME, "Unknown") ?: "Unknown"
         set(value) {
@@ -23,4 +15,12 @@ class SharedPreferencesHelper(private val sharedPreferences: SharedPreferences) 
         set(value) {
             sharedPreferences.edit().putString(USER_LAST_NAME, value).apply()
         }
+
+    companion object {
+
+        //User
+        const val USER_NAME = "userName"
+        const val USER_LAST_NAME = "userLastName"
+
+    }
 }
